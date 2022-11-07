@@ -1,0 +1,5 @@
+torch==1.8.1
+transformers==4.12.3
+numpy
+loguru
+tensorboard
