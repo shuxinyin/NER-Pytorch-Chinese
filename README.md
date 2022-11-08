@@ -1,6 +1,6 @@
 # NER系列-中文实体识别模型实践
 
-## 项目简介
+## Introduction
 本项目的目的在于验证常见的NER范式模型在不同中文NER数据集上(Flat、Nested、Discontinuous)的表现
 NER系列模型实践，包括如下：
 1. Bert-Softmax、Bert-Crf、Bert-BiLSTM-Softmax、Bert-BiLSTM-Crf
@@ -9,7 +9,7 @@ NER系列模型实践，包括如下：
 4. 机器阅读理解式 MRC (To do)
 5. span-based NER (To do)
 
-### 数据集
+### Dataset Introduction
 
 中文NER数据集：
 
@@ -24,32 +24,24 @@ NER系列模型实践，包括如下：
 'label': ['B-NAME', 'I-NAME', 'I-NAME', 'O', 'B-CONT', 'I-CONT', 'I-CONT', 'I-CONT', 'O',]}
 ```
 
-## 运行环境
+## Environment
 python==3.8、transformers==4.12.3、torch==1.8.0
 Or run the shell
 ```
 pip install -r requirements.txt
 ```
 
-## 项目结构
+## Project Structure
 
 - datasets：NER dataset
 - losses:损失函数
-- metrics:计算NER的评价指标
+- metrics:评价指标
 - models:存放自己实现的BERT模型代码
-    - crf.py:存放CRF模型实现
-    - lebert.py:LEBER模型实现
-    - ner_model.py
 - output:输出目录,存放模型、训练日志
-- processors:数据预处理模型
-    - convert_format.py:将原始数据集，整理成统一的json格式
-    - dataset.py
-    - processor.py:数据处理
-    - trie_tree.py：字典树实现
-    - vocab.py：字典类
-- script：脚本存放位置
-- utils:存放工具类
-- train.py:训练脚本
+- processors:数据管道
+- script：脚本
+- utils: 工具类
+- train.py: 主函数
 
 ## Usage
 
