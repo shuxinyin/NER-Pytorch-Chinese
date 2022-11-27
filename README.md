@@ -12,8 +12,10 @@ NER系列模型实践，包括如下：
 5. span-based NER (To do)
 
 ### Dataset Introduction
+
 mainly tested on ner dataset as below:  
 中文NER数据集：
+
 - **Flat** NER Datasets: Ontonote4、Msra
 - **Nested** NER Datasets：ACE 2004、 ACE 2005
 - **Discontinuous** NER Datasets： CADEC
@@ -22,8 +24,28 @@ mainly tested on ner dataset as below:
 
 ```json
 {
-  "text": ["吴", "重", "阳", "，", "中", "国", "国", "籍", ","],
-  "label": [ "B-NAME", "I-NAME", "I-NAME", "O", "B-CONT", "I-CONT", "I-CONT","I-CONT", "O"]
+  "text": [
+    "吴",
+    "重",
+    "阳",
+    "，",
+    "中",
+    "国",
+    "国",
+    "籍",
+    ","
+  ],
+  "label": [
+    "B-NAME",
+    "I-NAME",
+    "I-NAME",
+    "O",
+    "B-CONT",
+    "I-CONT",
+    "I-CONT",
+    "I-CONT",
+    "O"
+  ]
 }
 ```
 
@@ -32,13 +54,22 @@ mainly tested on ner dataset as below:
 ```json
   {
   "context": "图 为 马 拉 维 首 都 利 隆 圭 政 府 办 公 大 楼 。 （ 本 报 记 者 温 宪 摄 ）",
-  "end_position": [4, 15],
+  "end_position": [
+    4,
+    15
+  ],
   "entity_label": "NS",
   "impossible": false,
   "qas_id": "3820.1",
   "query": "按照地理位置划分的国家,城市,乡镇,大洲",
-  "span_position": ["2;4", "7;15"],
-  "start_position": [2, 7]
+  "span_position": [
+    "2;4",
+    "7;15"
+  ],
+  "start_position": [
+    2,
+    7
+  ]
 }
 ```
 
@@ -89,6 +120,19 @@ top F1 score of results on test：
 | BERT-BiLSTM-Crf-LEBERT      | Update~    | Update~    |
 | BERT-BiLSTM-Sotfmax-LEBERT  | Update~    | Update~    |
 | MRC                         | 0.942      | 0.812      |
+
+#### Speed
+
+GPU: 3060TI 8G  
+在速度上，以Msra数据集为例，train数据量41728， 完成训练花费时间大概是如下，总体来说CRF要慢不少。
+
+| model               | time      | batch_size |
+|---------------------|-----------|------------|
+| BERT-Sotfmax        | 6min 14s  | 24         |
+| BERT-BiLSTM-Sotfmax | 6min 46s  | 24         |
+| BERT+Crf            | 8min 06s  | 24         |
+| BERT-BiLSTM-Crf     | 8min 20s  | 24         |
+| MRC                 | 50min 10s | 4          |
 
 ## Paper & Refer
 
