@@ -9,6 +9,7 @@ ADAPTER_LR=1e-3
 
 REPO_PATH=/data/GitProject/NER/NER-Pytorch
 DATA_DIR=/data/GitProject/NER/NER-Pytorch/data
+OUTPUT_PATH=/data/GitProject/NER/NER-Pytorch/output
 
 PRETRAIN_MODEL='/data/Learn_Project/Backup_Data/bert_chinese'
 PRETRAIN_EMBED_PATH='/data/Learn_Project/Backup_Data/tencent-ailab-embedding-zh-d200-v0.2.0-s/tencent-ailab-embedding-zh-d200-v0.2.0-s.txt'
@@ -20,7 +21,7 @@ for MODEL_CLASS in 'bert-lstm-softmax' 'bert-lstm-crf'; do
   echo "----------------------------------------${DATA_SET}:${MODEL_CLASS}----------------------------------------"
   python ${REPO_PATH}/train/train.py \
       --device gpu \
-      --output_path output/ \
+      --output_path ${OUTPUT_PATH} \
       --add_layer 1 \
       --loss_type lsr \
       --lr ${LR} \
@@ -28,7 +29,7 @@ for MODEL_CLASS in 'bert-lstm-softmax' 'bert-lstm-crf'; do
       --adapter_lr ${ADAPTER_LR} \
       --weight_decay 0.01 \
       --eps 1.0e-08 \
-      --epochs 8 \
+      --epochs 1 \
       --batch_size_train 24 \
       --batch_size_eval 256 \
       --num_workers 0 \
