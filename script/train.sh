@@ -1,12 +1,15 @@
 set -x
-cd ..
 
 DEVICE=0
-DATA_SET='resume'
+DATA_SET='msra'
 MODEL_CLASS='bert-softmax'
 LR=1e-5
 CRF_LR=1e-3
 ADAPTER_LR=1e-3
+
+REPO_PATH=/data/GitProject/NER/NER-Pytorch
+DATA_DIR=/data/GitProject/NER/NER-Pytorch/data
+
 PRETRAIN_MODEL='/data/Learn_Project/Backup_Data/bert_chinese'
 PRETRAIN_EMBED_PATH='/data/Learn_Project/Backup_Data/tencent-ailab-embedding-zh-d200-v0.2.0-s/tencent-ailab-embedding-zh-d200-v0.2.0-s.txt'
 #export CUDA_VISIBLE_DEVICES=${DEVICE}
@@ -15,7 +18,7 @@ for DATA_SET in 'msra' 'ontonote4'; do
 #for MODEL_CLASS in 'bert-softmax' 'bert-crf' 'bert-lstm-softmax' 'bert-lstm-crf'; do
 for MODEL_CLASS in 'bert-lstm-softmax' 'bert-lstm-crf'; do
   echo "----------------------------------------${DATA_SET}:${MODEL_CLASS}----------------------------------------"
-  python train.py \
+  python ${REPO_PATH}/train/train.py \
       --device gpu \
       --output_path output/ \
       --add_layer 1 \
@@ -33,7 +36,7 @@ for MODEL_CLASS in 'bert-lstm-softmax' 'bert-lstm-crf'; do
       --max_seq_len 150 \
       --max_word_num  3 \
       --max_scan_num 3000000 \
-      --data_path datasets/${DATA_SET}/ \
+      --data_path ${DATA_DIR}/${DATA_SET}/ \
       --dataset_name ${DATA_SET} \
       --model_class ${MODEL_CLASS} \
       --pretrain_model_path ${PRETRAIN_MODEL} \

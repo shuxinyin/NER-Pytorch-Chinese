@@ -1,0 +1,10 @@
+O
+B-NR
+B-NS
+B-NT
+I-NR
+I-NS
+I-NT
+S-NR
+S-NS
+S-NT

@@ -52,16 +52,16 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     args = parser.parse_args()
-    args.train_file = '../datasets/ner_data/ner_data/resume/train.json'
-    args.dev_file = '../datasets/ner_data/ner_data/resume/dev.json'
-    args.test_file = '../datasets/ner_data/ner_data/resume/test.json'
+    args.train_file = '../data/ner_data_put_here/ner_data/resume/train.json'
+    args.dev_file = '../data/ner_data_put_here/ner_data/resume/dev.json'
+    args.test_file = '../data/ner_data_put_here/ner_data/resume/test.json'
     args.max_seq_len = 150
     args.max_word_num = 5
     args.pretrain_embed_path = '/data/Learn_Project/Backup_Data/tencent-ailab-embedding-zh-d200-v0.2.0-s/tencent-ailab-embedding-zh-d200-v0.2.0-s.txt'
     args.output_path = '../output/cner'
     args.max_scan_num = 10000
-    args.label_path = '../datasets/ner_data/ner_data/resume/labels.txt'
-    args.data_path = '../datasets/ner_data/ner_data/resume'
+    args.label_path = '../data/ner_data_put_here/ner_data/resume/labels.txt'
+    args.data_path = '../data/ner_data_put_here/ner_data/resume'
     args.overwrite = True
     tokenizer = BertTokenizer.from_pretrained('/data/Learn_Project/Backup_Data/bert_chinese')
 

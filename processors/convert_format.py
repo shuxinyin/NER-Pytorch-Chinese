@@ -79,7 +79,7 @@ def get_label_tokens(input_file, output_file):
 
 def convert_cner():
     # bmes生成json
-    bmes_files = ['../datasets/cner/dev.txt', '../datasets/cner/test.txt', '../datasets/cner/train.txt']
+    bmes_files = ['../data/cner/dev.txt', '../data/cner/test.txt', '../data/cner/train.txt']
     for bmes_file in bmes_files:
         dirname = os.path.dirname(bmes_file)
         file_name = os.path.basename(bmes_file).split('.')[0] + '.json'
@@ -87,14 +87,14 @@ def convert_cner():
         bmes_to_json(bmes_file, json_file)
 
     # 生成label文件
-    input_file = '../datasets/cner/train.txt'
-    output_file = '../datasets/cner/labels.txt'
+    input_file = '../data/cner/train.txt'
+    output_file = '../data/cner/labels.txt'
     get_label_tokens(input_file, output_file)
 
 
 def convert_weibo():
     # bmes生成json
-    bmes_files = ['../datasets/weibo/dev.char.bmes', '../datasets/weibo/test.char.bmes', '../datasets/weibo/train.char.bmes']
+    bmes_files = ['../data/weibo/dev.char.bmes', '../data/weibo/test.char.bmes', '../data/weibo/train.char.bmes']
     for bmes_file in bmes_files:
         dirname = os.path.dirname(bmes_file)
         file_name = os.path.basename(bmes_file).split('.')[0] + '.json'
@@ -102,15 +102,15 @@ def convert_weibo():
         bmes_to_json(bmes_file, json_file)
 
     # 生成label文件
-    input_file = '../datasets/weibo/train.char.bmes'
-    output_file = '../datasets/weibo/labels.txt'
+    input_file = '../data/weibo/train.char.bmes'
+    output_file = '../data/weibo/labels.txt'
     get_label_tokens(input_file, output_file)
 
 
 if __name__ == '__main__':
     # 生成json文件
     # data_names = ['msra', 'ontonote4', 'resume', 'weibo']
-    # path = '../datasets'
+    # path = '../data'
     # for data_name in data_names:
     #     logger.info('processing dataset:{}'.format(data_name))
     #     files = os.listdir(join(path, data_name))
@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
     # 生成label文件
     data_names = ['msra', 'ontonote4', 'resume', 'weibo']
-    path = '../datasets'
+    path = '../data'
     for data_name in data_names:
         logger.info('processing dataset:{}'.format(data_name))
         input_file = join(path, data_name, 'train.json')

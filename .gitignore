@@ -4,4 +4,5 @@ lebert.py
 
 # ignore ALL files in ANY directory named temp
 output/
-datasets/
+
+!output/out_dir_put_here

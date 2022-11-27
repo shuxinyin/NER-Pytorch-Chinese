@@ -32,7 +32,7 @@ def set_train_args():
     parser.add_argument("--max_seq_len", type=int, default=150, help="输入的最大长度")
     parser.add_argument("--max_word_num", type=int, default=3, help="每个汉字最多融合多少个词汇信息")
     parser.add_argument("--max_scan_num", type=int, default=10000, help="取预训练词向量的前max_scan_num个构造字典树")
-    parser.add_argument("--data_path", type=str, default="datasets/resume/", help='数据集存放路径')
+    parser.add_argument("--data_path", type=str, default="data/resume/", help='数据集存放路径')
     parser.add_argument("--dataset_name", type=str, choices=['resume', "weibo", 'ontonote4', 'msra'], default='resume',
                         help='数据集名称')
     parser.add_argument("--model_class", type=str,
@@ -50,43 +50,26 @@ def set_train_args():
     parser.add_argument('--max_grad_norm', default=1.0, type=float, required=False, help='梯度裁剪阈值')
     parser.add_argument('--seed', type=int, default=42, help='设置随机种子')
     parser.add_argument('--num_workers', type=int, default=0, help="dataloader加载数据时使用的线程数量")
-    # parser.add_argument('--patience', type=int, default=0, help="用于early stopping,设为0时,不进行early stopping.early stop得到的模型的生成效果不一定会更好。")
+    # parser.add_argument('--patience', type=int, default=0, help="用于early stopping,设为0时,
+    #                       不进行early stopping.early stop得到的模型的生成效果不一定会更好。")
     parser.add_argument('--warmup_proportion', type=float, default=0.1,
-                        help='Proportion of training to perform linear learning rate warmup for,E.g., 0.1 = 10% of training.')
+                        help='Proportion of training to perform linear learning rate warmup '
+                             'for,E.g., 0.1 = 10% of training.')
     args = parser.parse_args()
     return args
 
 
-def seed_everything(seed=42):
+def set_random_seed(seed=42):
+    """set seeds for reproducibility
     """
-    设置整个开发环境的seed
-    :param seed:
-    :return:
-    """
-    random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
+    random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    # some cudnn methods can be random even after fixing the seed
-    # unless you tell it to be deterministic
     torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
-MODEL_CLASS = {
-    'lebert-softmax': LEBertSoftmaxForNer,
-    'lebert-crf': LEBertCrfForNer,
-    'bert-softmax': BertSoftmaxForNer,
-    'bert-crf': BertCrfForNer,
-    'bert-lstm-softmax': BertLSTMSoftmaxForNer,
-    'bert-lstm-crf': BertLSTMCrfForNer
-}
-PROCESSOR_CLASS = {
-    'lebert-softmax': LEBertProcessor,
-    'lebert-crf': LEBertProcessor,
-    'bert-softmax': BertProcessor,
-    'bert-crf': BertProcessor,
-    'bert-lstm-softmax': BertProcessor,
-    'bert-lstm-crf': BertProcessor
-}
+
