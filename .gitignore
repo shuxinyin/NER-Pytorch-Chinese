@@ -4,6 +4,9 @@ lebert.py
 
 # ignore ALL files in ANY directory named temp
 output/
-data/msra/bert_train.pkl
-
 !output/out_dir_put_here
+
+data/msra/
+data/ontonote4/
+data/mrc_data/
+

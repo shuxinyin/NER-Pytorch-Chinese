@@ -22,54 +22,25 @@ mainly tested on ner dataset as below:
 
 关于一般NER数据处理成以下格式:
 
-```json
+```yaml
 {
-  "text": [
-    "吴",
-    "重",
-    "阳",
-    "，",
-    "中",
-    "国",
-    "国",
-    "籍",
-    ","
-  ],
-  "label": [
-    "B-NAME",
-    "I-NAME",
-    "I-NAME",
-    "O",
-    "B-CONT",
-    "I-CONT",
-    "I-CONT",
-    "I-CONT",
-    "O"
-  ]
+  "text": ["吴", "重", "阳", "，", "中", "国", "国", "籍",","],
+  "label": ["B-NAME", "I-NAME", "I-NAME", "O", "B-CONT", "I-CONT", "I-CONT", "I-CONT", "O"]
 }
 ```
 
 阅读理解-NER（MRC-NER）处理成以下格式:
 
-```json
-  {
+```yaml
+{
   "context": "图 为 马 拉 维 首 都 利 隆 圭 政 府 办 公 大 楼 。 （ 本 报 记 者 温 宪 摄 ）",
-  "end_position": [
-    4,
-    15
-  ],
+  "end_position": [4,15],
   "entity_label": "NS",
   "impossible": false,
   "qas_id": "3820.1",
   "query": "按照地理位置划分的国家,城市,乡镇,大洲",
-  "span_position": [
-    "2;4",
-    "7;15"
-  ],
-  "start_position": [
-    2,
-    7
-  ]
+  "span_position": ["2;4", "7;15"],
+  "start_position": [2, 7]
 }
 ```
 
