@@ -1,5 +1,4 @@
 # ignore ALL .log files
-lebert.py
 
 
 # ignore ALL files in ANY directory named temp

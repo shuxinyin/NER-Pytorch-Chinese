@@ -142,7 +142,8 @@ class BertLSTMCrfForNer(BertPreTrainedModel):
 class LEBertSoftmaxForNer(BertPreTrainedModel):
     def __init__(self, config):
         super(LEBertSoftmaxForNer, self).__init__(config)
-        self.word_embeddings = nn.Embedding(config.vocab_size, config.word_embed_dim)
+        # print(f"config {config.word_vocab_size}, {config.word_embed_dim}")
+        self.word_embeddings = nn.Embedding(config.word_vocab_size, config.word_embed_dim)
         self.num_labels = config.num_labels
         self.bert = LEBertModel(config)
         self.dropout = nn.Dropout(config.hidden_dropout_prob)

@@ -93,20 +93,15 @@ def train(model, train_loader, dev_loader, test_loader, optimizer, scheduler, ar
                 word_mask = data['word_mask'].to(device)
                 loss, logits = model(input_ids, attention_mask, token_type_ids, word_ids, word_mask, label_ids)
 
-            loss = loss.mean()  # 对多卡的loss取平均
+            loss = loss.mean()  # multi-card loss取平均
 
-            # 梯度累积
             loss = loss / args.grad_acc_step
             loss.backward()
             # 梯度裁剪
             torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
-            # 进行一定step的梯度累计之后，更新参数
             if step % args.grad_acc_step == 0:
-                # 更新参数
                 optimizer.step()
-                # 更新学习率
                 scheduler.step()
-                # 清空梯度信息
                 optimizer.zero_grad()
 
             # 评测验证集和测试集上的指标
@@ -170,7 +165,7 @@ def evaluate(args, model, dataloader):
                 word_ids = data['word_ids'].to(device)
                 word_mask = data['word_mask'].to(device)
                 loss, logits = model(input_ids, attention_mask, token_type_ids, word_ids, word_mask, label_ids)
-            loss = loss.mean()  # 对多卡的loss取平均
+            loss = loss.mean()  # multi-card loss取平均
             eval_loss += loss
 
             input_lens = (torch.sum(input_ids != 0, dim=-1) - 2).tolist()  # 减去padding的[CLS]与[SEP]
@@ -197,13 +192,11 @@ def evaluate(args, model, dataloader):
 
 
 def main(args):
-    # 分词器
     tokenizer = BertTokenizer.from_pretrained(args.pretrain_model_path, do_lower_case=True)
-    # 数据处理器
-    processor = PROCESSOR_CLASS[args.model_class](args, tokenizer)
+    processor = PROCESSOR_CLASS[args.model_class](args, tokenizer)  # data processor
     args.id2label = processor.label_vocab.idx2token
     args.ignore_index = processor.label_vocab.convert_token_to_id('[PAD]')
-    # 初始化模型配置
+
     config = BertConfig.from_pretrained(args.pretrain_model_path)
     config.num_labels = processor.label_vocab.size
     config.loss_type = args.loss_type
@@ -211,11 +204,14 @@ def main(args):
         config.add_layer = args.add_layer
         config.word_vocab_size = processor.word_embedding.shape[0]
         config.word_embed_dim = processor.word_embedding.shape[1]
-    # 初始化模型
+
+    # model init
     model = MODEL_CLASS[args.model_class].from_pretrained(args.pretrain_model_path, config=config).to(args.device)
-    # 初始化模型的词向量
+    # word-embedding init
+    logger.info(f'{args.model_class}')
     if args.model_class in ['lebert-softmax', 'lebert-crf'] and args.load_word_embed:
         logger.info('initialize word_embeddings with pretrained embedding')
+        logger.info(f'{model.word_embeddings.weight.shape}, {processor.word_embedding.shape}')
         model.word_embeddings.weight.data.copy_(torch.from_numpy(processor.word_embedding))
 
     # 训练
@@ -239,31 +235,6 @@ def main(args):
         optimizer, scheduler = get_optimizer(model, args, warmup_steps, t_total)
         train(model, train_dataloader, dev_dataloader, test_dataloader, optimizer, scheduler, args)
 
-    # 测试集上的指标
-    if args.do_eval:
-        # 加载验证集
-        dev_dataset = processor.get_dev_data()
-        # dev_dataset = dev_dataset[:4]
-        dev_dataloader = DataLoader(dev_dataset, batch_size=args.batch_size_eval, shuffle=False,
-                                    num_workers=args.num_workers)
-        # 加载测试集
-        test_dataset = processor.get_test_data()
-        # test_dataset = test_dataset[:4]
-        test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size_eval, shuffle=False,
-                                     num_workers=args.num_workers)
-        model = MODEL_CLASS[args.model_class].from_pretrained(args.output_path, config=config).to(args.device)
-        model.eval()
-
-        result = evaluate(args, model, dev_dataloader)
-        logger.info(
-            'Dev Set precision:{}, recall:{}, f1:{}, loss:{}'.format(result['acc'], result['recall'], result['f1'],
-                                                                     result['loss'].item()))
-        # 测试集上的指标
-        result = evaluate(args, model, test_dataloader)
-        logger.info(
-            'Test Set precision:{}, recall:{}, f1:{}, loss:{}'.format(result['acc'], result['recall'], result['f1'],
-                                                                      result['loss'].item()))
-
 
 if __name__ == '__main__':
     # 设置参数
@@ -284,8 +255,10 @@ if __name__ == '__main__':
         cur_time = time.strftime("%Y%m%d%H%M%S", time.localtime())
         format = '%(asctime)s - %(name)s - %(message)s'
         logger.basicConfig(format=format,
-                           filename=join(args.output_path, f'train-{args.loss_type}-{cur_time}.log'),
+                           # filename=join(args.output_path, f'train-{args.loss_type}-{cur_time}.log'),
                            level=logger.INFO)
+
         logger.info(args)
         writer = SummaryWriter(args.output_path)
+
     main(args)

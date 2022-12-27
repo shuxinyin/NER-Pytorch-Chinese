@@ -88,8 +88,8 @@ top F1 score of results on test：
 | BERT-Crf                    | 0.9562     | 0.8218     |
 | BERT-BiLSTM-Crf             | 0.9561     | __0.8227__ |
 | BERT-BiLSTM-Crf-LabelSmooth | 0.9547     | 0.8216     |
-| BERT-BiLSTM-Crf-LEBERT      | Update~    | Update~    |
-| BERT-BiLSTM-Sotfmax-LEBERT  | Update~    | Update~    |
+| BERT-BiLSTM-Crf-LEBERT      | 0.9518     | 0.8094     |
+| BERT-BiLSTM-Sotfmax-LEBERT  | 0.9544     | 0.8196     |
 | MRC                         | 0.942      | 0.812      |
 
 #### Speed
