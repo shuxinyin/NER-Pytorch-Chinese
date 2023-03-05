@@ -71,9 +71,13 @@ pip install -r requirements.txt
 ### Quick Start
 
 you can start training model by run the shell
-
+1. run ner model except mrc model
 ```
 bash script/train.sh
+```
+2. run mrc model
+```
+bash script/mrc_train.sh
 ```
 
 ### Results
