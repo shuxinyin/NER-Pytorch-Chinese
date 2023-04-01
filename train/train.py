@@ -169,7 +169,7 @@ def evaluate(args, model, dataloader):
             eval_loss += loss
 
             input_lens = (torch.sum(input_ids != 0, dim=-1) - 2).tolist()  # 减去padding的[CLS]与[SEP]
-            if args.model_class in ['lebert-crf', 'bert-crf']:
+            if args.model_class in ['lebert-crf', 'bert-crf', 'bert-lstm-crf']:
                 preds = model.crf.decode(logits, attention_mask).squeeze(0)
                 preds = preds[:, 1:].tolist()  # 减去padding的[CLS]
             else:

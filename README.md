@@ -46,7 +46,7 @@ mainly tested on ner dataset as below:
 
 ## Environment
 
-python==3.8、transformers==4.12.3、torch==1.8.0
+python==3.8、transformers>=4.12.3、torch==1.8.0
 Or run the shell
 
 ```
