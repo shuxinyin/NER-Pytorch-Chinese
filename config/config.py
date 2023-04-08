@@ -4,10 +4,6 @@ import random
 import os
 import numpy as np
 
-from processors.processor import LEBertProcessor, BertProcessor
-from models.ner_model import LEBertSoftmaxForNer, LEBertCrfForNer, \
-    BertCrfForNer, BertSoftmaxForNer, BertLSTMSoftmaxForNer, BertLSTMCrfForNer
-
 
 def set_train_args():
     parser = argparse.ArgumentParser()
